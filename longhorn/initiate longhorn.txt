@@ -1,0 +1,15 @@
+0. kubectl create ns longhorn-system
+
+1. label worker node
+    kubectl label node worker-1 node.longhorn.io/create-default-disk=true
+    kubectl label node worker-2 node.longhorn.io/create-default-disk=true
+
+2. install iscsi on workers and master nodes
+    sudo apt update
+    sudo apt install open-iscsi -y
+
+3. deploy longhorn
+    helm repo add longhorn https://charts.longhorn.io 
+    helm repo update 
+    kubectl create namespace longhorn-system 
+    helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system
