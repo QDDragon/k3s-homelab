@@ -1,0 +1,6 @@
+helm install minio bitnami/minio   \
+    --namespace minio   \
+    --set persistence.storageClass=longhorn   \
+    --set persistence.size=10Gi
+    --set auth.rootUser=minio   \
+    --set auth.rootPassword=minio123
