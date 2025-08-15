@@ -7,7 +7,7 @@
 
 image:
   # -- image repository
-  repository: linuxserver/calibre-web
+  repository: ghcr.io/linuxserver/calibre
   # -- image pull policy
   pullPolicy: IfNotPresent
   # -- image tag
@@ -30,7 +30,7 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 8083 #calibre web ui
+        port: 8080 #calibre web ui
       novnc:
         enabled: true
         port: 8081 # built-in noVNC
