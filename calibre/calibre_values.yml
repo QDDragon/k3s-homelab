@@ -30,7 +30,7 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 8080 #calibre web ui
+        port: 8083 #calibre web ui
       novnc:
         enabled: true
         port: 8081 # built-in noVNC
@@ -62,6 +62,7 @@ persistence:
     # point this to where your ebooks live (RW or RO)
     existingClaim: calibre-books   # <— shared PVC mounted at /books
     mountPath: /books
+
 # -- Configure persistence settings for the chart under this key.
 # @default -- See values.yaml
 
