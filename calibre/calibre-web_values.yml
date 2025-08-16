@@ -8,14 +8,25 @@ env:
   PGID: "1000"
   UMASK: "002"
 
+# persistence:
+#   config:
+#     enabled: true
+#     size: 2Gi
+#     storageClass: longhorn
+#   books:
+#     enabled: true
+#     existingClaim: calibre-books    # <— same shared PVC
+#     mountPath: /books
+
 persistence:
   config:
     enabled: true
     size: 2Gi
-    storageClass: longhorn
+    storageClass: longhorn          # or nfs-csi / your default
   books:
     enabled: true
-    existingClaim: calibre-books    # <— same shared PVC
+    # point this to where your ebooks live (RW or RO)
+    existingClaim: calibre-books   # <— shared PVC mounted at /books
     mountPath: /books
 
 podSecurityContext:
@@ -34,11 +45,11 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       cert-manager.io/cluster-issuer: homelab-ca-issuer
     hosts:
-      - host: books.lab.local
+      - host: calibreweb.lab.local
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: calibre-web-tls
         hosts:
-          - books.lab.local
+          - calibreweb.lab.local
