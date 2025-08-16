@@ -1,0 +1,44 @@
+image:
+  repository: ghcr.io/linuxserver/calibre-web
+  tag: latest
+
+  env:
+    TZ: Asia/Bangkok
+    PUID: "1000"       # must match Calibre to avoid perms issues
+    PGID: "1000"
+    UMASK: "002"
+
+  persistence:
+    config:
+      enabled: true
+      size: 2Gi
+      storageClass: longhorn
+    books:
+      enabled: true
+      existingClaim: calibre-books    # <— same shared PVC
+      mountPath: /books
+
+  podSecurityContext:
+    fsGroup: 1000                    # helps with shared volume perms
+
+  service:
+    main:
+      type: ClusterIP
+      port: 8083
+
+  ingress:
+    main:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        cert-manager.io/cluster-issuer: homelab-ca-issuer
+      hosts:
+        - host: books.lab.local
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: calibre-web-tls
+          hosts:
+            - books.lab.local
