@@ -43,7 +43,7 @@ server:
               pathType: Prefix
       tls:
         - hosts:
-          - immich.lab.local
+            - immich.lab.local
           secretName: immich-tls
  
 machine-learning:
